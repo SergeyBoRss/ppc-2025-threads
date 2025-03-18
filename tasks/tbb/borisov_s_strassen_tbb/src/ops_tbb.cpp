@@ -26,13 +26,13 @@ std::vector<double> MultiplyNaive(const std::vector<double> &a, const std::vecto
 
 std::vector<double> AddMatr(const std::vector<double> &a, const std::vector<double> &b, int n) {
   std::vector<double> c(n * n);
-  tbb::parallel_for(0, n * n, [&, n](int i) { c[i] = a[i] + b[i]; });
+  tbb::parallel_for(0, n * n, [&](int i) { c[i] = a[i] + b[i]; });
   return c;
 }
 
 std::vector<double> SubMatr(const std::vector<double> &a, const std::vector<double> &b, int n) {
   std::vector<double> c(n * n);
-  tbb::parallel_for(0, n * n, [&, n](int i) { c[i] = a[i] - b[i]; });
+  tbb::parallel_for(0, n * n, [&](int i) { c[i] = a[i] - b[i]; });
   return c;
 }
 
