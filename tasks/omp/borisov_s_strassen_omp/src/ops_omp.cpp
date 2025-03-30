@@ -10,7 +10,7 @@ namespace {
 
 std::vector<double> MultiplyNaive(const std::vector<double> &a, const std::vector<double> &b, int n) {
   std::vector<double> c(n * n, 0.0);
-#pragma omp parallel for
+#pragma omp parallel for schedule(static)
   for (int i = 0; i < n; ++i) {
     for (int j = 0; j < n; ++j) {
       double sum = 0.0;
@@ -25,7 +25,7 @@ std::vector<double> MultiplyNaive(const std::vector<double> &a, const std::vecto
 
 std::vector<double> AddMatr(const std::vector<double> &a, const std::vector<double> &b, int n) {
   std::vector<double> c(n * n);
-#pragma omp parallel for
+#pragma omp parallel for schedule(static)
   for (int i = 0; i < n * n; ++i) {
     c[i] = a[i] + b[i];
   }
@@ -34,7 +34,7 @@ std::vector<double> AddMatr(const std::vector<double> &a, const std::vector<doub
 
 std::vector<double> SubMatr(const std::vector<double> &a, const std::vector<double> &b, int n) {
   std::vector<double> c(n * n);
-#pragma omp parallel for
+#pragma omp parallel for schedule(static)
   for (int i = 0; i < n * n; ++i) {
     c[i] = a[i] - b[i];
   }
@@ -43,7 +43,7 @@ std::vector<double> SubMatr(const std::vector<double> &a, const std::vector<doub
 
 std::vector<double> SubMatrix(const std::vector<double> &m, int n, int row, int col, int size) {
   std::vector<double> sub(size * size);
-#pragma omp parallel for
+#pragma omp parallel for schedule(static)
   for (int i = 0; i < size; ++i) {
     for (int j = 0; j < size; ++j) {
       sub[(i * size) + j] = m[((row + i) * n) + (col + j)];
@@ -53,7 +53,7 @@ std::vector<double> SubMatrix(const std::vector<double> &m, int n, int row, int 
 }
 
 void SetSubMatrix(std::vector<double> &m, const std::vector<double> &sub, int n, int row, int col, int size) {
-#pragma omp parallel for
+#pragma omp parallel for schedule(static)
   for (int i = 0; i < size; ++i) {
     for (int j = 0; j < size; ++j) {
       m[((row + i) * n) + (col + j)] = sub[(i * size) + j];
@@ -84,7 +84,7 @@ std::vector<double> StrassenRecursive(const std::vector<double> &a, const std::v
   std::vector<double> m6;
   std::vector<double> m7;
 
-#pragma omp parallel sections
+#pragma omp parallel sections num_threads(7)
   {
 #pragma omp section
     { m1 = StrassenRecursive(AddMatr(a11, a22, k), AddMatr(b11, b22, k), k); }
