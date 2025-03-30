@@ -158,8 +158,7 @@ bool ParallelStrassenOMP::ValidationImpl() {
 }
 
 bool ParallelStrassenOMP::RunImpl() {
-
-  char* omp_env = nullptr;
+  char *omp_env = nullptr;
   size_t len = 0;
   errno_t err = _dupenv_s(&omp_env, &len, "OMP_NUM_THREADS");
 
