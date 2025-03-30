@@ -1,6 +1,7 @@
 #include "omp/borisov_s_strassen_omp/include/ops_omp.hpp"
 
 #include <algorithm>
+#include <core/util/include/util.hpp>
 #include <cstddef>
 #include <vector>
 
@@ -158,15 +159,7 @@ bool ParallelStrassenOMP::ValidationImpl() {
 }
 
 bool ParallelStrassenOMP::RunImpl() {
-  char *omp_env = nullptr;
-  size_t len = 0;
-  errno_t err = _dupenv_s(&omp_env, &len, "OMP_NUM_THREADS");
-
-  int env_threads = 1;
-  if (err == 0 && omp_env != nullptr) {
-    env_threads = std::atoi(omp_env);
-    free(omp_env);
-  }
+  const int env_threads = ppc::util::GetPPCNumThreads();
 
   omp_set_num_threads(env_threads);
 
